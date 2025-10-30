@@ -1,0 +1,19 @@
+services:
+  openttd:
+    image: bateau/openttd:14.1
+    container_name: openttd
+    restart: unless-stopped
+    environment:
+      PUID: "1000"   
+      PGID: "1000"
+      loadgame: "last-autosave"
+      savepath: "/home/openttd/.openttd/save"
+    ports:
+      - "3979:3979/udp"
+      - "3979:3979/tcp"
+    volumes:
+      # OpenTTD expects .openttd inside the openttd user's home
+      - ./config:/home/openttd/.openttd
+      - ./saves:/home/openttd/.openttd/save
+    security_opt:
+      - no-new-privileges:true
